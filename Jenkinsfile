@@ -11,7 +11,8 @@ pipeline{
         }
         stage("Code Build"){
             steps{
-            docker_build("notes-app","latest")
+            docker_build(imageName: "notes-app", imageTag: "latest")
+            //docker_build("notes-app","latest")
             }
         }
         stage("Push to DockerHub"){
