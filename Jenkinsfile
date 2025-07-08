@@ -17,7 +17,8 @@ pipeline{
         }
         stage("Push to DockerHub"){
             steps{
-                docker_push("dockerhub-creds","notes-app","latest")
+                docker_push(credentials: 'dockerhub-creds', imageName: 'notes-app', imageTag: 'latest')
+                //docker_push("dockerhub-creds","notes-app","latest")
             }
         }
         stage("Deploy"){
