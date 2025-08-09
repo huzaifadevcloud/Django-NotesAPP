@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-notes-app
+  name: nginx-notes-app
+  namespace: notes-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-notes-app
+  template:
+    metadata:
+      labels:
+        app: nginx-notes-app
+    spec:
+      containers:
+      - name: nginx-notes-app
+        image: 936335589231.dkr.ecr.ap-south-1.amazonaws.com/nginx:V4.0
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+      

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: notes-app
+  name: notes-app
+  namespace: notes-app
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1             # Optional - 1 extra Pod can be created during update
+      maxUnavailable: 0       # Optional - 0 unavailable Pods ensure 0 Downtime
+  selector:
+    matchLabels:
+      app: notes-app
+  template:
+    metadata:
+      labels:
+        app: notes-app
+    spec:
+      containers:
+      - name: django-notes-app
+        image: 936335589231.dkr.ecr.ap-south-1.amazonaws.com/django-notes-app:V2.0
+        envFrom:
+        - secretRef:
+            name: django-env-secret
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        command:
+          [
+            "sh",
+            "-c",
+            "
+            until nc -zv $DB_HOST $DB_PORT; do
+              echo 'Waiting for MySQL...';
+              sleep 3;
+            done;
+            python manage.py migrate && gunicorn notesapp.wsgi:application --bind 0.0.0.0:8000
+            "
+          ]
+      imagePullSecrets:
+      - name: ecr-secret

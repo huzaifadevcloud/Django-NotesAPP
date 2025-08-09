@@ -3,7 +3,7 @@ services:
     build: ./nginx
     container_name: "nginx_cont"
     ports:
-      - "81:80" #because port 80 is already in use in host
+      - "80:80" #because port 80 is already in use in host
     restart: always
     depends_on:
       - django_app

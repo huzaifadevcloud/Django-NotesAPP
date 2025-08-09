@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: notes-app
+spec:
+  selector:
+    app: nginx-notes-app   # Use the appropriate label to match your pod
+  ports:
+    - protocol: TCP
+      port: 80       # Port in the service
+      targetPort: 80 # Port in the pod
+  type: LoadBalancer #NodePort to use if in local

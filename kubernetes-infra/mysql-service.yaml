@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-notes-app
+  namespace: notes-app
+spec:
+  selector:
+    app: mysql-notes-app   # Use the appropriate label to match your pod
+  ports:
+    - protocol: TCP
+      port: 3306       # Port in the service
+      targetPort: 3306 # Port in the pod
+  type: ClusterIP  # Change to NodePort if needed

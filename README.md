@@ -61,3 +61,9 @@ Install Nginx reverse proxy to make this application available
 
 `sudo apt-get update`
 `sudo apt install nginx`
+
+
+
+aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 936335589231.dkr.ecr.ap-south-1.amazonaws.com
+
+aws eks update-kubeconfig --region ap-south-1 --name Django-Notes-App-

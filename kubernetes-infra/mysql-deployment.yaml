@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mysql-notes-app
+  name: mysql-notes-app
+  namespace: notes-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-notes-app
+  template:
+    metadata:
+      labels:
+        app: mysql-notes-app
+    spec:
+      containers:
+      - name: mysql-notes-app
+        image: 936335589231.dkr.ecr.ap-south-1.amazonaws.com/mysql-db:V1.0
+        envFrom:
+        - secretRef:
+            name: mysql-env-secret
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+      imagePullSecrets:
+      - name: ecr-secret
