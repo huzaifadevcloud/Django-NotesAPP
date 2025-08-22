@@ -23,7 +23,7 @@ WORKDIR /app/backend
 
 # Install runtime system packages for mysqlclient (no build tools needed here)
 RUN apt-get update && apt-get install -y \
-    netcat-openbsd \
+    netcat-openbsd \ #Installs the OpenBSD version of netcat, a lightweight networking utility often used in Docker for: Checking service availability (e.g., MySQL before app starts).Debugging connections.Waiting for other services (common in entrypoint scripts).
     libmariadb3 \
     && rm -rf /var/lib/apt/lists/*
 
