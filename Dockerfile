@@ -5,15 +5,15 @@ FROM python:3.9-slim as builder
 WORKDIR /app
 
 # Install system dependencies required to build mysqlclient
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y gcc default-libmysqlclient-dev pkg-config \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \ #Refreshes the package lists.
+    && apt-get upgrade -y \ #Install updated packages
+    && apt-get install -y gcc default-libmysqlclient-dev pkg-config \ #Development headers for MySQL client, required by Python MySQL libraries like mysqlclient.
+    && rm -rf /var/lib/apt/lists/* #Removes cached package lists to reduce Docker image size.
 
 # Copy requirements and install dependencies
 COPY requirements.txt .
-RUN pip install --upgrade pip \
-    && pip install --prefix=/install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip \ #replaces current pip with the latest.
+    && pip install --prefix=/install --no-cache-dir -r requirements.txt #--prefix=/install → installs packages into /install directory instead of the default global site-packages
 
 
 # ---------- Stage 2: Final Runtime Image ----------
