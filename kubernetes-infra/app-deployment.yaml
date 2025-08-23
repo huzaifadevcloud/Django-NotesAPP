@@ -23,6 +23,8 @@ spec:
       containers:
       - name: django-notes-app
         image: 936335589231.dkr.ecr.ap-south-1.amazonaws.com/django-notes-app:V2.0
+        ports:
+            - containerPort: 8000
         envFrom:
         - secretRef:
             name: django-env-secret
