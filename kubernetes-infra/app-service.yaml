@@ -10,4 +10,4 @@ spec:
     - protocol: TCP
       port: 8000       # Port in the service
       targetPort: 8000 # Port in the pod
-  type: ClusterIP
+  type: ClusterIP #ClusterIp not exposes outside the cluster while NodePort Exposes port outside the cluster
