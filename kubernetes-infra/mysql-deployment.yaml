@@ -18,6 +18,8 @@ spec:
       containers:
       - name: mysql-notes-app
         image: 936335589231.dkr.ecr.ap-south-1.amazonaws.com/mysql-db:V1.0
+        ports:
+            - containerPort: 3306
         envFrom:
         - secretRef:
             name: mysql-env-secret
