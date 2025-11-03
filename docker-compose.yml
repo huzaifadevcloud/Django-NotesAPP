@@ -3,28 +3,28 @@ services:
     build: ./nginx
     container_name: "nginx_cont"
     ports:
-      - "80:80" #because port 80 is already in use in host
+      - "80:80" # Expose Nginx on port 80
     restart: always
     depends_on:
-      - django_app
+      - djangoapp
     networks:
       - notes-app-nw
 
-  django_app:
+  djangoapp: #when using django, avoid using underscore (_) in service names
     build:
       context: .
     container_name: "django_cont"
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     env_file:
       - .env
     restart: always
-    command: sh -c "python manage.py migrate --noinput && gunicorn notesapp.wsgi --bind 0.0.0.0:8000"
+    command: sh -c "python manage.py migrate --noinput && gunicorn notesapp.wsgi:application --bind 0.0.0.0:8000"
     depends_on:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8000/admin || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:8000/ || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -40,8 +40,8 @@ services:
       - MYSQL_DATABASE=test_db
       - MYSQL_USER=notes
       - MYSQL_PASSWORD=notes_password
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
     volumes:
       - mysql_data_noteapp:/var/lib/mysql
     healthcheck:
